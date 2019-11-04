@@ -18,9 +18,9 @@ $MyCredential = New-Object -TypeName System.Management.Automation.PSCredential -
 $test = Invoke-Command -ComputerName rdg.pasics.lev -ScriptBlock { Get-WmiObject -class "Win32_TSGatewayConnection" -namespace "root\cimv2\TerminalServices" -ComputerName rdg.pasics.lev | Select Username, ClientAddress, ConnectedResource } -credential $MyCredential | select "Username","ClientAddress","ConnectedResource"
 
 
-$test.Count/2 # Es werden immer 2 Verbindungen aufgebaut eine via UDP und eine https deswegen muss hier durch 2 geteilt werden.
+#$test.Count/2 # Es werden immer 2 Verbindungen aufgebaut eine via UDP und eine https deswegen muss hier durch 2 geteilt werden.
 
-###### Entspricht der XML - Fomratierung für PRTG
+
 write-host "<?xml version="1.0" encoding="Windows-1252" ?>"
 
 
@@ -28,7 +28,7 @@ write-host "<prtg>"
 
 write-host    "<result>"
 write-host        "<channel>" "Anzahl Verbindungen" "</channel>"
-write-host        "<value>" ($test.Count/2) "</value>"
+write-host        "<value>" ([math]::Ceiling($test.Count/2)) "</value>" # Aufrunden auf ganze Zahl. In PRTG werden nur ganze Zahlen angezeigt.
 write-host    "</result>"
 
 
