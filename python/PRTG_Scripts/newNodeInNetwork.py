@@ -13,6 +13,10 @@ Unterscheiden sich die Teilnehmer des neuen Scans zu den Teilnehmner im der vorh
 import subprocess
 import os
 
+__location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
+ 
+
 def CalcIPRange(StartIP:str, EndIP:str):
     print("In Function")
 
@@ -66,20 +70,20 @@ IPsreplyed = []
 ### startet Ping -Processe -> Maximal 9255 Prcesse
 for ip in range(0, IPrange):
     IPasString = str(ipset1[0]+"."+str(ipset1[1]+"."+ipset1[2]+"."+str(ip)))
-    procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
+    procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
 
 """  ((str(procList[ip].stdout.read()).find("Antwort von "+ IPasString) != -1) and """
 
 ###Wertet die Ping Antwort aus und gibt die IP-Adressen zurück, die geantwortet haben.
 for ip in range(0,IPrange):
     IPasString = str(ipset1[0]+"."+str(ipset1[1]+"."+ipset1[2]+"."+str(ip)))
-    if str(procList[ip].stdout.read()).find("TTL") != -1:
+    if str(procList[ip].stdout.read()).find("ttl") != -1:
         IPsreplyed.append(IPasString)
 
 
 
 try:
-    with open("IPsreplyed.txt","r") as f:
+    with open(__location__+"/IPsreplyed.txt","r") as f:
        IPsImported = f.readlines()
        IPsImported = [x.strip() for x in IPsImported] 
     #print(IPsImported)
@@ -91,7 +95,7 @@ diff = set(IPsreplyed).difference(set(IPsImported))
 print(diff)
 
 try:
-    with open("IPsreplyed.txt", "w") as f:
+    with open(__location__+"/IPsreplyed.txt", "w") as f:
         for line in IPsreplyed:
             f.writelines(line)
             f.writelines("\n")
