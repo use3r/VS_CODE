@@ -28,7 +28,7 @@ Der Retrun- Wert enthält die Größe eines Blocks. Sind Blöcke in einer IP-Adr
 
 
 StatIP="192.168.1.0"
-EndIP="192.168.3.10"
+EndIP="192.168.1.255"
 ipset1 = list( StatIP.split(".")) #Entsprcht StartIP'
 ipset2 = list( EndIP.split("."))   # Entsprecht EndIP
 IP_Block_range = list() # Diese Liste nimmt auf wieviele Blöcke sich unterscheiden. Das heißt wie groß die IP-Range ist. 
@@ -46,7 +46,7 @@ try:
                 exit(0)
             
             if ipset1[1] != ipset2[1]:
-                print("IP Range to high - Scan will take to long! \n Reduce the IP Range !")
+                print("IP Range to high - Scan would take to long! \n Reduce the IP Range !")
                 exit(0)
 
             if int(ipset1[block]) > 255 or int(ipset2[block]) > 255:  ### Check if Block higher then 255, If it is,  then Exit the the Programm
@@ -65,18 +65,10 @@ except Exception as e:
 # Wenn die Länge von IP_Block-range = 1 ist dann ist unterscheidet sich die Adresse bloß im letzten Block
 # Wenn die Länge von IP_Block-range = 2 ist dann ist unterscheidet sich die Adresse bloß im  vorletzten  Block
 
-""" 
-if len(IP_Block_range) == 2:
-    for block in IP_Block_range:
-        IPrange = ( int(block) + (255 * IP_Block_range[0])) 
-        #print(IPrange)
-else:
-    IPrange = IP_Block_range[0] # IPRange enthält die Anzhal der IP Adressen
- """
 
 
 procList = [] # proclist ist eine Liste mit der Anzahl prozessen, die gestartet werden. 
-IPsreplyed = [] # Diese Variable nimmt die Antwort des processes an in einer Lieste an.
+IPsreplied = [] # Diese Variable nimmt die Antwort des processes an in einer Lieste an.
 
 SubprocessStack_Init = 100 # Variable für Anzahl wieviele Pring Prozesse prallel laufen dürfen.
 # Wenn der Block sich an der vorletzten Stelle unterscheidet. So muss erst der vorletzte Block abgearbeitet werden.
@@ -90,7 +82,13 @@ if len(IP_Block_range) == 2:
 
     for ip in range(int(ipset1[3]), 256):
         IPasString = ipset1[0]+"."+ipset1[1]+"."+ipset1[2]+"."+str(int(ipset1[3])+IPinLastBlock)
-        procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
+        if not str(os.defpath).find(":/bin") == -1:
+            procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
+        elif not str(os.defpath).find("C:\\\\bin") == -1:
+            procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
+        else:
+            print("OS not supported!")
+            exit(0)
         IPinLastBlock += 1
 
 
@@ -99,9 +97,18 @@ if len(IP_Block_range) == 2:
         if SubprocessStack == SubprocessStack_Init:
             for item in procList:
                 ping_reply = item.stdout.read()
-                if str(ping_reply).find("ttl") != -1:
-                    ping_reply_as_list = str(ping_reply).split(" ")
-                    IPsreplyed.append(ping_reply_as_list[1])
+                if not str(os.defpath).find(":/bin") == -1:
+                    if str(ping_reply).find("ttl") != -1:
+                        ping_reply_as_list = str(ping_reply).split(" ")
+                        IPsreplied.append(ping_reply_as_list[1])
+                elif not str(os.defpath).find("C:\\\\bin") == -1:
+                    if str(ping_reply).find("TTL") != -1:
+                        ping_reply_as_list = str(ping_reply).split(" ")
+                        IPsreplied.append(ping_reply_as_list[1])
+                else:
+                    print("OS not supported!")
+                    exit(0)
+
             procList = []
             SubprocessStack = 0
     
@@ -109,9 +116,17 @@ if len(IP_Block_range) == 2:
 # Arbeitet die letzen offenen Prozesse ab  
     for item in procList:
         ping_reply = item.stdout.read()
-        if str(ping_reply).find("ttl") != -1:
-            ping_reply_as_list = str(ping_reply).split(" ")
-            IPsreplyed.append(ping_reply_as_list[1])
+        if not str(os.defpath).find(":/bin") == -1:
+            if str(ping_reply).find("ttl") != -1:
+                ping_reply_as_list = str(ping_reply).split(" ")
+                IPsreplied.append(ping_reply_as_list[1])
+        elif not str(os.defpath).find("C:\\\\bin") == -1:
+            if str(ping_reply).find("TTL") != -1:
+                ping_reply_as_list = str(ping_reply).split(" ")
+                IPsreplied.append(ping_reply_as_list[1])
+        else:
+            print("OS not supported!")
+            exit(0)
             procList = []
             SubprocessStack = 0
 
@@ -126,7 +141,13 @@ if len(IP_Block_range) == 2:
             
         for i in range(255):
             IPasString = ipset1[0]+"."+ipset1[1]+"."+str(int_ip)+"."+str(i)
-            procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
+            if not str(os.defpath).find(":/bin") == -1:
+                procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
+            elif not str(os.defpath).find("C:\\\\bin") == -1:
+                procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
+            else:
+                print("OS not supported!")
+                exit(0)
     
     #####
     # Defines how many Ping Processes are started in parallel
@@ -134,9 +155,17 @@ if len(IP_Block_range) == 2:
         if SubprocessStack == SubprocessStack_Init:
             for item in procList:
                 ping_reply = item.stdout.read()
-                if str(ping_reply).find("ttl") != -1:
-                    ping_reply_as_list = str(ping_reply).split(" ")
-                    IPsreplyed.append(ping_reply_as_list[1])
+                if not str(os.defpath).find(":/bin") == -1:
+                    if str(ping_reply).find("ttl") != -1:
+                        ping_reply_as_list = str(ping_reply).split(" ")
+                        IPsreplied.append(ping_reply_as_list[1])
+                elif not str(os.defpath).find("C:\\\\bin") == -1:
+                    if str(ping_reply).find("TTL") != -1:
+                        ping_reply_as_list = str(ping_reply).split(" ")
+                        IPsreplied.append(ping_reply_as_list[1])
+                else:
+                    print("OS not supported!")
+                    exit(0)
             procList = []
             SubprocessStack = 0
     
@@ -144,18 +173,34 @@ if len(IP_Block_range) == 2:
 # Arbeitet die letzen offenen Prozesse ab  
     for item in procList:
         ping_reply = item.stdout.read()
-        if str(ping_reply).find("ttl") != -1:
-            ping_reply_as_list = str(ping_reply).split(" ")
-            IPsreplyed.append(ping_reply_as_list[1])
-            procList = []
-            SubprocessStack = 0
+
+        if not str(os.defpath).find(":/bin") == -1:
+            if str(ping_reply).find("ttl") != -1:
+                ping_reply_as_list = str(ping_reply).split(" ")
+                IPsreplied.append(ping_reply_as_list[1])
+        elif not str(os.defpath).find("C:\\\\bin") == -1:
+            if str(ping_reply).find("TTL") != -1:
+                ping_reply_as_list = str(ping_reply).split(" ")
+                IPsreplied.append(ping_reply_as_list[1])
+        else:
+            print("OS not supported!")
+            exit(0)
+        procList = []
+        SubprocessStack = 0
 
 
 
     IPinLastBlock = 0
     for ip in range(0, int(ipset2[3])):
         IPasString = ipset1[0]+"."+ipset1[1]+"."+ipset2[2]+"."+str(int(IPinLastBlock))
-        procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
+        if not str(os.defpath).find(":/bin") == -1:
+            procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
+        elif not str(os.defpath).find("C:\\\\bin") == -1:
+            procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
+        else:
+            print("OS not supported!")
+            exit(0)     
+                
         IPinLastBlock += 1
 
 
@@ -164,9 +209,17 @@ if len(IP_Block_range) == 2:
         if SubprocessStack == SubprocessStack_Init:
             for item in procList:
                 ping_reply = item.stdout.read()
-                if str(ping_reply).find("ttl") != -1:
-                    ping_reply_as_list = str(ping_reply).split(" ")
-                    IPsreplyed.append(ping_reply_as_list[1])
+                if not str(os.defpath).find(":/bin") == -1:
+                    if str(ping_reply).find("ttl") != -1:
+                        ping_reply_as_list = str(ping_reply).split(" ")
+                        IPsreplied.append(ping_reply_as_list[1])
+                elif not str(os.defpath).find("C:\\\\bin") == -1:
+                    if str(ping_reply).find("TTL") != -1:
+                        ping_reply_as_list = str(ping_reply).split(" ")
+                        IPsreplied.append(ping_reply_as_list[1])
+                else:
+                    print("OS not supported!")
+                    exit(0)
             procList = []
             SubprocessStack = 0
     
@@ -174,11 +227,20 @@ if len(IP_Block_range) == 2:
 # Arbeitet die letzen offenen Prozesse ab  
     for item in procList:
         ping_reply = item.stdout.read()
-        if str(ping_reply).find("ttl") != -1:
-            ping_reply_as_list = str(ping_reply).split(" ")
-            IPsreplyed.append(ping_reply_as_list[1])
-            procList = []
-            SubprocessStack = 0
+        if not str(os.defpath).find(":/bin") == -1:
+            if str(ping_reply).find("ttl") != -1:
+                ping_reply_as_list = str(ping_reply).split(" ")
+                IPsreplied.append(ping_reply_as_list[1])
+        elif not str(os.defpath).find("C:\\\\bin") == -1:
+            if str(ping_reply).find("TTL") != -1:
+                ping_reply_as_list = str(ping_reply).split(" ")
+                IPsreplied.append(ping_reply_as_list[1])
+        else:
+            print("OS not supported!")
+            exit(0)            
+            
+        procList = []
+        SubprocessStack = 0
       
 #################### Wenn Subnet = /24
 ###########################################################################################
@@ -186,7 +248,13 @@ elif len(IP_Block_range) == 1:
     SubprocessStack = 0
     for ip in range(int(ipset1[3]), int(ipset2[3])):
         IPasString = ipset1[0]+"."+ipset1[1]+"."+ipset1[2]+"."+str(ip)
-        procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
+        if not str(os.defpath).find(":/bin") == -1:
+            procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
+        elif not str(os.defpath).find("C:\\\\bin") == -1:
+            procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
+        else:
+            print("OS not supported!")
+            exit(0)     
 
 
     # Defines how many Ping Processes are started in parallel
@@ -194,10 +262,18 @@ elif len(IP_Block_range) == 1:
         if SubprocessStack == SubprocessStack_Init: 
             for item in procList:
                 ping_reply = item.stdout.read()
-                item.wait()
-                if str(ping_reply).find("ttl") != -1:
-                    ping_reply_as_list = str(ping_reply).split(" ")
-                    IPsreplyed.append(ping_reply_as_list[1])
+                if not str(os.defpath).find(":/bin") == -1:
+                    if str(ping_reply).find("ttl") != -1:
+                        ping_reply_as_list = str(ping_reply).split(" ")
+                        IPsreplied.append(ping_reply_as_list[1])
+                elif not str(os.defpath).find("C:\\\\bin") == -1:
+                    if str(ping_reply).find("TTL") != -1:
+                        ping_reply_as_list = str(ping_reply).split(" ")
+                        IPsreplied.append(ping_reply_as_list[1])
+                else:
+                    print("OS not supported!")
+                    exit(0)
+            
             procList = []
             SubprocessStack = 0
             print("Warten auf proclist Reset")
@@ -206,11 +282,20 @@ elif len(IP_Block_range) == 1:
 # Arbeitet die letzen offenen Prozesse ab  
     for item in procList:
         ping_reply = item.stdout.read()
-        if str(ping_reply).find("ttl") != -1:
-            ping_reply_as_list = str(ping_reply).split(" ")
-            IPsreplyed.append(ping_reply_as_list[1])
-            procList = []
-            SubprocessStack = 0
+        if not str(os.defpath).find(":/bin") == -1: #Prüfung, ob Linux/Mac
+            if str(ping_reply).find("ttl") != -1:
+                ping_reply_as_list = str(ping_reply).split(" ")
+                IPsreplied.append(ping_reply_as_list[1])
+        elif not str(os.defpath).find("C:\\\\bin") == -1: #Prüfung, ob Windows
+            if str(ping_reply).find("TTL") != -1:
+                ping_reply_as_list = str(ping_reply).split(" ")
+                IPsreplied.append(ping_reply_as_list[1])
+        else:
+            print("OS not supported!")
+            exit(0)
+
+        procList = []
+        SubprocessStack = 0
 
 
         
@@ -219,81 +304,45 @@ else:
       
     
         
-
-""" ########## Auswerten der Antworten / Alte Auswertung
-if len(IP_Block_range) == 2:
-    IPinLastBlock = 0
-    for ip in range(int(ipset1[2]), 256):
-        IPasString = str(ipset1[0]+"."+str(ipset1[1]+"."+ipset1[2]+"."+str(ip)))
-        if str(procList[ip].stdout.read()).find("ttl") != -1:
-            IPsreplyed.append(IPasString)
-    
-    for ip in range(int(ipset1[2]), int(ipset2[2])):
-        int_ip = int(ip)+1
-        for i in range(255):
-            IPasString = ipset1[0]+"."+ipset1[1]+"."+str(int_ip)+"."+str(i)
-            if str(procList[ip].stdout.read()).find("ttl") != -1:
-                IPsreplyed.append(IPasString)
-
-
-    IPinLastBlock = 0
-    for ip in range(0, int(ipset2[3])):
-        IPasString = ipset1[0]+"."+ipset1[1]+"."+ipset2[2]+"."+str(int(IPinLastBlock))
-        if str(procList[ip].stdout.read()).find("ttl") != -1:
-            IPsreplyed.append(IPasString)
-        IPinLastBlock += 1
-
-elif len(IP_Block_range) == 1:
-    for ip in range(int(ipset1[3]), int(ipset2[3])):
-        IPasString = ipset1[0]+"."+ipset1[1]+"."+ipset1[2]+"."+str(ip)
-        test = procList[ip].stdout.read()
-        if str(procList[ip].stdout.read()).find("ttl") != -1:
-            IPsreplyed.append(IPasString)
-        
-
-else:
-    print("Somethin went wrong while checking Ping-Reply!")
-
-    
- """
-
-""" ### startet Ping -Processe -> Maximal 255 Prcesse
-for ip in range(0, IPrange):
-    IPasString = str(ipset1[0]+"."+str(ipset1[1]+"."+ipset1[2]+"."+str(ip)))
-    procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
- """
-"""  ((str(procList[ip].stdout.read()).find("Antwort von "+ IPasString) != -1) and """
-
-###Wertet die Ping Antwort aus und gibt die IP-Adressen zurück, die geantwortet haben.
-""" for ip in range(0,IPrange):
-    IPasString = str(ipset1[0]+"."+str(ipset1[1]+"."+ipset1[2]+"."+str(ip)))
-    if str(procList[ip].stdout.read()).find("ttl") != -1:
-        IPsreplyed.append(IPasString)
- """
-
+########## Import IPs from files - File needs to be tested for checked plausibility 
 
 try:
-    with open(__location__+"/IPsreplyed.txt","r") as f:
-       IPsImported = f.readlines()
-       IPsImported = [x.strip() for x in IPsImported] 
+    if not str(os.defpath).find(":/bin") == -1: #Prüfung, ob Linux/Mac
+        with open(__location__+"/IPsreplied.txt","r") as f:
+            IPsImported = f.readlines()
+            IPsImported = [x.strip() for x in IPsImported] 
+    elif not str(os.defpath).find("C:\\\\bin") == -1: #Prüfung, ob Windows
+        with open(__location__+"IPsreplied.txt","r") as f:
+            IPsImported = f.readlines()
+            IPsImported = [x.strip() for x in IPsImported] 
+    
     #print(IPsImported)
 
 except Exception as e:
-    print("Crreate File first!")
+    print("first replies generated! Run Script again, to see differences!")
+
+######## Show differences ###################
 
 try:
-    diff = set(IPsreplyed).difference(set(IPsImported))
+    diff = set(IPsreplied).difference(set(IPsImported))
     print(diff)
 except Exception as e:
     print("Something went wrong in reading the text file!")
 
-try:
-    with open(__location__+"/IPsreplyed.txt", "w") as f:
-        for line in IPsreplyed:
-            f.writelines(line)
-            f.writelines("\n")
-            
+######### write replyed IPs to File ################
 
+
+try:
+    if not str(os.defpath).find(":/bin") == -1: #Prüfung, ob Linux/Mac
+        with open(__location__+"/IPsreplied.txt", "w") as f:
+            for line in IPsreplied:
+                f.writelines(line)
+                f.writelines("\n")
+    elif not str(os.defpath).find("C:\\\\bin") == -1: #Prüfung, ob Windows
+        with open(__location__+"IPsreplied.txt", "w") as f:
+            for line in IPsreplied:
+                f.writelines(line)
+                f.writelines("\n")
 except Exception as e:
     print("Something went wrong while creating a file!/nIf the file did not exist, run the script one again!")
 
