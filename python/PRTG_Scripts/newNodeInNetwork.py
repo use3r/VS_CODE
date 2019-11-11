@@ -34,6 +34,8 @@ ipset2 = list( EndIP.split("."))   # Entsprecht EndIP
 IP_Block_range = list() # Diese Liste nimmt auf wieviele Blöcke sich unterscheiden. Das heißt wie groß die IP-Range ist. 
 IPrange = 1
 
+var_for_Windows = ".;C:\\bin"
+print(var_for_Windows)
 # Berechnen der IP Range
 # Der übergebene String wird umgewandetlt 
 # Maximal dürfen sich nur die letzten 2 Blöcke unterscheiden, da der Scan sonst zu lange dauern würde.
@@ -84,7 +86,7 @@ if len(IP_Block_range) == 2:
         IPasString = ipset1[0]+"."+ipset1[1]+"."+ipset1[2]+"."+str(int(ipset1[3])+IPinLastBlock)
         if not str(os.defpath).find(":/bin") == -1:
             procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
-        elif not str(os.defpath).find("C:\\\\bin") == -1:
+        elif not str(os.defpath).find(var_for_Windows) == -1:
             procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
         else:
             print("OS not supported!")
@@ -101,7 +103,7 @@ if len(IP_Block_range) == 2:
                     if str(ping_reply).find("ttl") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
-                elif not str(os.defpath).find("C:\\\\bin") == -1:
+                elif not str(os.defpath).find(var_for_Windows) == -1:
                     if str(ping_reply).find("TTL") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
@@ -120,7 +122,7 @@ if len(IP_Block_range) == 2:
             if str(ping_reply).find("ttl") != -1:
                 ping_reply_as_list = str(ping_reply).split(" ")
                 IPsreplied.append(ping_reply_as_list[1])
-        elif not str(os.defpath).find("C:\\\\bin") == -1:
+        elif not str(os.defpath).find(var_for_Windows) == -1:
             if str(ping_reply).find("TTL") != -1:
                 ping_reply_as_list = str(ping_reply).split(" ")
                 IPsreplied.append(ping_reply_as_list[1])
@@ -143,7 +145,7 @@ if len(IP_Block_range) == 2:
             IPasString = ipset1[0]+"."+ipset1[1]+"."+str(int_ip)+"."+str(i)
             if not str(os.defpath).find(":/bin") == -1:
                 procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
-            elif not str(os.defpath).find("C:\\\\bin") == -1:
+            elif not str(os.defpath).find(var_for_Windows) == -1:
                 procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
             else:
                 print("OS not supported!")
@@ -159,7 +161,7 @@ if len(IP_Block_range) == 2:
                     if str(ping_reply).find("ttl") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
-                elif not str(os.defpath).find("C:\\\\bin") == -1:
+                elif not str(os.defpath).find(var_for_Windows) == -1:
                     if str(ping_reply).find("TTL") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
@@ -178,7 +180,7 @@ if len(IP_Block_range) == 2:
             if str(ping_reply).find("ttl") != -1:
                 ping_reply_as_list = str(ping_reply).split(" ")
                 IPsreplied.append(ping_reply_as_list[1])
-        elif not str(os.defpath).find("C:\\\\bin") == -1:
+        elif not str(os.defpath).find(var_for_Windows) == -1:
             if str(ping_reply).find("TTL") != -1:
                 ping_reply_as_list = str(ping_reply).split(" ")
                 IPsreplied.append(ping_reply_as_list[1])
@@ -195,7 +197,7 @@ if len(IP_Block_range) == 2:
         IPasString = ipset1[0]+"."+ipset1[1]+"."+ipset2[2]+"."+str(int(IPinLastBlock))
         if not str(os.defpath).find(":/bin") == -1:
             procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
-        elif not str(os.defpath).find("C:\\\\bin") == -1:
+        elif not str(os.defpath).find(var_for_Windows) == -1:
             procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
         else:
             print("OS not supported!")
@@ -213,7 +215,7 @@ if len(IP_Block_range) == 2:
                     if str(ping_reply).find("ttl") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
-                elif not str(os.defpath).find("C:\\\\bin") == -1:
+                elif not str(os.defpath).find(var_for_Windows) == -1:
                     if str(ping_reply).find("TTL") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
@@ -231,7 +233,7 @@ if len(IP_Block_range) == 2:
             if str(ping_reply).find("ttl") != -1:
                 ping_reply_as_list = str(ping_reply).split(" ")
                 IPsreplied.append(ping_reply_as_list[1])
-        elif not str(os.defpath).find("C:\\\\bin") == -1:
+        elif not str(os.defpath).find(var_for_Windows) == -1:
             if str(ping_reply).find("TTL") != -1:
                 ping_reply_as_list = str(ping_reply).split(" ")
                 IPsreplied.append(ping_reply_as_list[1])
@@ -250,7 +252,7 @@ elif len(IP_Block_range) == 1:
         IPasString = ipset1[0]+"."+ipset1[1]+"."+ipset1[2]+"."+str(ip)
         if not str(os.defpath).find(":/bin") == -1:
             procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
-        elif not str(os.defpath).find("C:\\\\bin") == -1:
+        elif not str(os.defpath).find(var_for_Windows) == -1:
             procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
         else:
             print("OS not supported!")
@@ -266,7 +268,7 @@ elif len(IP_Block_range) == 1:
                     if str(ping_reply).find("ttl") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
-                elif not str(os.defpath).find("C:\\\\bin") == -1:
+                elif not str(os.defpath).find(var_for_Windows) == -1:
                     if str(ping_reply).find("TTL") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
@@ -286,7 +288,7 @@ elif len(IP_Block_range) == 1:
             if str(ping_reply).find("ttl") != -1:
                 ping_reply_as_list = str(ping_reply).split(" ")
                 IPsreplied.append(ping_reply_as_list[1])
-        elif not str(os.defpath).find("C:\\\\bin") == -1: #Prüfung, ob Windows
+        elif not str(os.defpath).find(var_for_Windows) == -1: #Prüfung, ob Windows
             if str(ping_reply).find("TTL") != -1:
                 ping_reply_as_list = str(ping_reply).split(" ")
                 IPsreplied.append(ping_reply_as_list[1])
@@ -311,7 +313,7 @@ try:
         with open(__location__+"/IPsreplied.txt","r") as f:
             IPsImported = f.readlines()
             IPsImported = [x.strip() for x in IPsImported] 
-    elif not str(os.defpath).find("C:\\\\bin") == -1: #Prüfung, ob Windows
+    elif not str(os.defpath).find(var_for_Windows) == -1: #Prüfung, ob Windows
         with open(__location__+"IPsreplied.txt","r") as f:
             IPsImported = f.readlines()
             IPsImported = [x.strip() for x in IPsImported] 
@@ -338,7 +340,7 @@ try:
             for line in IPsreplied:
                 f.writelines(line)
                 f.writelines("\n")
-    elif not str(os.defpath).find("C:\\\\bin") == -1: #Prüfung, ob Windows
+    elif not str(os.defpath).find(var_for_Windows) == -1: #Prüfung, ob Windows
         with open(__location__+"IPsreplied.txt", "w") as f:
             for line in IPsreplied:
                 f.writelines(line)
