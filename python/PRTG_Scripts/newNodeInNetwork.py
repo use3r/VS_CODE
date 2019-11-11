@@ -27,8 +27,8 @@ Der Retrun- Wert enthält die Größe eines Blocks. Sind Blöcke in einer IP-Adr
 '''
 
 
-StatIP="192.168.1.0"
-EndIP="192.168.1.255"
+StatIP="10.108.65.0"
+EndIP="10.108.65.255"
 ipset1 = list( StatIP.split(".")) #Entsprcht StartIP'
 ipset2 = list( EndIP.split("."))   # Entsprecht EndIP
 IP_Block_range = list() # Diese Liste nimmt auf wieviele Blöcke sich unterscheiden. Das heißt wie groß die IP-Range ist. 
@@ -87,7 +87,7 @@ if len(IP_Block_range) == 2:
         if not str(os.defpath).find(":/bin") == -1:
             procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
         elif not str(os.defpath).find(var_for_Windows) == -1:
-            procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
+            procList.append(subprocess.Popen(["ping", IPasString, "-n", "2"], stdout=subprocess.PIPE))
         else:
             print("OS not supported!")
             exit(0)
@@ -104,9 +104,9 @@ if len(IP_Block_range) == 2:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
                 elif not str(os.defpath).find(var_for_Windows) == -1:
-                    if str(ping_reply).find("TTL") != -1:
+                    if str(ping_reply).find("ms TTL==") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
-                        IPsreplied.append(ping_reply_as_list[1])
+                        IPsreplied.append(ping_reply_as_list[4])
                 else:
                     print("OS not supported!")
                     exit(0)
@@ -123,9 +123,9 @@ if len(IP_Block_range) == 2:
                 ping_reply_as_list = str(ping_reply).split(" ")
                 IPsreplied.append(ping_reply_as_list[1])
         elif not str(os.defpath).find(var_for_Windows) == -1:
-            if str(ping_reply).find("TTL") != -1:
+            if str(ping_reply).find("ms TTL=") != -1:
                 ping_reply_as_list = str(ping_reply).split(" ")
-                IPsreplied.append(ping_reply_as_list[1])
+                IPsreplied.append(ping_reply_as_list[4])
         else:
             print("OS not supported!")
             exit(0)
@@ -146,7 +146,7 @@ if len(IP_Block_range) == 2:
             if not str(os.defpath).find(":/bin") == -1:
                 procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
             elif not str(os.defpath).find(var_for_Windows) == -1:
-                procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
+                procList.append(subprocess.Popen(["ping", IPasString, "-n", "2"], stdout=subprocess.PIPE))
             else:
                 print("OS not supported!")
                 exit(0)
@@ -162,9 +162,9 @@ if len(IP_Block_range) == 2:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
                 elif not str(os.defpath).find(var_for_Windows) == -1:
-                    if str(ping_reply).find("TTL") != -1:
+                    if str(ping_reply).find("ms TTL=") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
-                        IPsreplied.append(ping_reply_as_list[1])
+                        IPsreplied.append(ping_reply_as_list[4])
                 else:
                     print("OS not supported!")
                     exit(0)
@@ -181,9 +181,9 @@ if len(IP_Block_range) == 2:
                 ping_reply_as_list = str(ping_reply).split(" ")
                 IPsreplied.append(ping_reply_as_list[1])
         elif not str(os.defpath).find(var_for_Windows) == -1:
-            if str(ping_reply).find("TTL") != -1:
+            if str(ping_reply).find("ms TTL=") != -1:
                 ping_reply_as_list = str(ping_reply).split(" ")
-                IPsreplied.append(ping_reply_as_list[1])
+                IPsreplied.append(ping_reply_as_list[4])
         else:
             print("OS not supported!")
             exit(0)
@@ -198,7 +198,7 @@ if len(IP_Block_range) == 2:
         if not str(os.defpath).find(":/bin") == -1:
             procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
         elif not str(os.defpath).find(var_for_Windows) == -1:
-            procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
+            procList.append(subprocess.Popen(["ping", IPasString, "-n", "2"], stdout=subprocess.PIPE))
         else:
             print("OS not supported!")
             exit(0)     
@@ -216,9 +216,9 @@ if len(IP_Block_range) == 2:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
                 elif not str(os.defpath).find(var_for_Windows) == -1:
-                    if str(ping_reply).find("TTL") != -1:
+                    if str(ping_reply).find("ms TTL=") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
-                        IPsreplied.append(ping_reply_as_list[1])
+                        IPsreplied.append(ping_reply_as_list[4])
                 else:
                     print("OS not supported!")
                     exit(0)
@@ -234,9 +234,9 @@ if len(IP_Block_range) == 2:
                 ping_reply_as_list = str(ping_reply).split(" ")
                 IPsreplied.append(ping_reply_as_list[1])
         elif not str(os.defpath).find(var_for_Windows) == -1:
-            if str(ping_reply).find("TTL") != -1:
+            if str(ping_reply).find("ms TTL=") != -1:
                 ping_reply_as_list = str(ping_reply).split(" ")
-                IPsreplied.append(ping_reply_as_list[1])
+                IPsreplied.append(ping_reply_as_list[4])
         else:
             print("OS not supported!")
             exit(0)            
@@ -253,7 +253,7 @@ elif len(IP_Block_range) == 1:
         if not str(os.defpath).find(":/bin") == -1:
             procList.append(subprocess.Popen(["ping", IPasString, "-c", "1"], stdout=subprocess.PIPE))
         elif not str(os.defpath).find(var_for_Windows) == -1:
-            procList.append(subprocess.Popen(["ping", IPasString, "-n", "1"], stdout=subprocess.PIPE))
+            procList.append(subprocess.Popen(["ping", IPasString, "-n", "2"], stdout=subprocess.PIPE))
         else:
             print("OS not supported!")
             exit(0)     
@@ -269,9 +269,9 @@ elif len(IP_Block_range) == 1:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
                 elif not str(os.defpath).find(var_for_Windows) == -1:
-                    if str(ping_reply).find("TTL") != -1:
+                    if str(ping_reply).find("ms TTL=") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
-                        IPsreplied.append(ping_reply_as_list[1])
+                        IPsreplied.append(ping_reply_as_list[4])
                 else:
                     print("OS not supported!")
                     exit(0)
@@ -289,9 +289,9 @@ elif len(IP_Block_range) == 1:
                 ping_reply_as_list = str(ping_reply).split(" ")
                 IPsreplied.append(ping_reply_as_list[1])
         elif not str(os.defpath).find(var_for_Windows) == -1: #Prüfung, ob Windows
-            if str(ping_reply).find("TTL") != -1:
+            if str(ping_reply).find("ms TTL=") != -1:
                 ping_reply_as_list = str(ping_reply).split(" ")
-                IPsreplied.append(ping_reply_as_list[1])
+                IPsreplied.append(ping_reply_as_list[4])
         else:
             print("OS not supported!")
             exit(0)
