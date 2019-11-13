@@ -104,7 +104,7 @@ if len(IP_Block_range) == 2:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[1])
                 elif not str(os.defpath).find(var_for_Windows) == -1:
-                    if str(ping_reply).find("ms TTL==") != -1:
+                    if str(ping_reply).find("ms TTL=") != -1:
                         ping_reply_as_list = str(ping_reply).split(" ")
                         IPsreplied.append(ping_reply_as_list[4])
                 else:
@@ -354,34 +354,7 @@ except Exception as e:
 
 
 
-
-""" ipset2 = EndIP.split(".").sort
-iprange = ipset1. """
-
-
-
-
-""" proc = subprocess.Popen(["ping", StatIP, "-n", "1"], stdout=subprocess.PIPE)
-output = proc.stdout.read()
-
-str1 = str(output)
-
-if (str1.find('Antwort von '+ StatIP)) != -1:
-    print(StatIP) """
-
-
-####### 
-""" try:
-    with open(PreScanOutputFile) as f:
-        csv_python = csv.reader(f)
-        for row in csv_python:
-            print(row[0])
-            ip2.add(row[0])
-
-except Exception as e:
-    print("Some File not found!") """
-""" 8
-
+""" 
 You can still use Popen which takes the same input parameters as subprocess.call but is more flexible.
 
 subprocess.call: The full function signature is the same as that of the Popen constructor - this functions passes all supplied arguments directly through to that interface.
@@ -394,4 +367,4 @@ from subprocess import Popen
 commands = ['command1', 'command2']
 procs = [ Popen(i) for i in command ]
 for p in procs:
-   p.wait() """
+   p.wait()  """
