@@ -28,14 +28,14 @@ Der Retrun- Wert enthält die Größe eines Blocks. Sind Blöcke in einer IP-Adr
 
 
 StatIP="10.108.65.0"
-EndIP="10.108.65.255"
+EndIP="10.108.67.255"
 ipset1 = list( StatIP.split(".")) #Entsprcht StartIP'
 ipset2 = list( EndIP.split("."))   # Entsprecht EndIP
 IP_Block_range = list() # Diese Liste nimmt auf wieviele Blöcke sich unterscheiden. Das heißt wie groß die IP-Range ist. 
 IPrange = 1
 
 var_for_Windows = ".;C:\\bin"
-print(var_for_Windows)
+#print(var_for_Windows)
 # Berechnen der IP Range
 # Der übergebene String wird umgewandetlt 
 # Maximal dürfen sich nur die letzten 2 Blöcke unterscheiden, da der Scan sonst zu lange dauern würde.
@@ -314,7 +314,7 @@ try:
             IPsImported = f.readlines()
             IPsImported = [x.strip() for x in IPsImported] 
     elif not str(os.defpath).find(var_for_Windows) == -1: #Prüfung, ob Windows
-        with open(__location__+"IPsreplied.txt","r") as f:
+        with open(__location__+"\IPsreplied.txt","r") as f:
             IPsImported = f.readlines()
             IPsImported = [x.strip() for x in IPsImported] 
     
@@ -341,7 +341,7 @@ try:
                 f.writelines(line)
                 f.writelines("\n")
     elif not str(os.defpath).find(var_for_Windows) == -1: #Prüfung, ob Windows
-        with open(__location__+"IPsreplied.txt", "w") as f:
+        with open(__location__+"\IPsreplied.txt", "w") as f:
             for line in IPsreplied:
                 f.writelines(line)
                 f.writelines("\n")
