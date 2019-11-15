@@ -3,8 +3,10 @@ import subprocess
 import os
 
 '''
-Unterscheiden sich die Teilnehmer des neuen Scans zu den Teilnehmner im der 
-vorhärigen Datei, so wird ein Alarm gesetzt und die neuen 
+Diese Script "pingt" die IP Adressen im angegebenen IP Beich an und 
+speichert die IP Adresse, von der ein "Reply" erhalten wird in einer Textdatei.
+Unterscheiden sich die Teilnehmer des neuen Scans zu den Teilnehmern 
+in der Datei, so wird der neu hinzugekommene Teilnehmer bzw. fehlende Teilnehmer ausgegeben.
 Teilnemer werden aussgegeben.
 '''
 
@@ -28,8 +30,8 @@ Der Retrun- Wert enthält die Größe eines Blocks. Sind Blöcke in einer IP-Adr
 '''
 
 
-StatIP = "192.168.1.1"
-EndIP = "192.168.1.255"
+StatIP = "10.108.65.2"
+EndIP = "10.108.65.254"
 ipset1 = list(StatIP.split("."))  # Entsprcht StartIP'
 ipset2 = list(EndIP.split("."))   # Entsprecht EndIP
 
@@ -67,7 +69,7 @@ while True:
 
                     if int(ipset1[block]) < int(ipset2[block]):
                         IP_Block_range.append((int(ipset2[block]) - int(ipset1[block])))
-                        
+                      
                     else:
                         print("Ckeck IP Range")
                         break
@@ -334,8 +336,12 @@ while True:
         ######## Show differences ###################
 
         try:
-            diff = set(IPsreplied).difference(set(IPsImported))
-            print(diff)
+            diff_newDevice = set(IPsreplied).difference(set(IPsImported))
+            print(diff_newDevice)
+
+            diff_missingDevice = set(IPsImported).difference(set(IPsreplied))
+            print(diff_missingDevice)
+        
         except Exception as e:
             print("Something went wrong in reading the text file!")
 
@@ -372,8 +378,9 @@ while True:
             else:
                 print("OS not supported!")
                 exit(0)
+        exit(0)
         # If you actually want the program to exit
-    exit(0)        
+     
 
 #procList[ip].stdout.read())
 
