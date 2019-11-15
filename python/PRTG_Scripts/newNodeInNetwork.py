@@ -1,6 +1,7 @@
 
 import subprocess
 import os
+import time
 
 '''
 Diese Script "pingt" die IP Adressen im angegebenen IP Beich an und 
@@ -28,10 +29,27 @@ Ein Block kann von 1 - 255 sein.
 
 Der Retrun- Wert enthält die Größe eines Blocks. Sind Blöcke in einer IP-Adresse Identisch, werden diese nicht zurückgegeben.
 '''
+""" import time
 
+def countdown(t):
+    while t:
+        mins, secs = divmod(t, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        print(timeformat, end='\r')
+        time.sleep(1)
+        t -= 1
+ """
 
-StatIP = "10.108.65.2"
-EndIP = "10.108.65.254"
+def countdown(t):
+    while t:
+        mins, secs = divmod(t, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        print(timeformat, end='\r')
+        time.sleep(1)
+        t -= 1
+
+StatIP = "192.168.1.2"
+EndIP = "192.168.1.254"
 ipset1 = list(StatIP.split("."))  # Entsprcht StartIP'
 ipset2 = list(EndIP.split("."))   # Entsprecht EndIP
 
@@ -51,6 +69,8 @@ while True:
         # reset vars
         IP_Block_range = list()  # Diese Liste nimmt auf wieviele Blöcke sich unterscheiden. Das heißt wie groß die IP-Range ist. 
         IPrange = 1
+
+
 
         try:
             for block in range(len(ipset1)):
@@ -288,7 +308,7 @@ while True:
                     
                     procList = []
                     SubprocessStack = 0
-                    print("Warten auf proclist Reset")
+                    # print("Warten auf proclist Reset")
             
             
         # Arbeitet die letzen offenen Prozesse ab  
@@ -359,9 +379,18 @@ while True:
                     for line in IPsreplied:
                         f.writelines(line)
                         f.writelines("\n")
+            
+            
+               
+                   
+                    
         except Exception as e:
             print("Something went wrong while creating a file!/nIf the file did not exist, run the script one again!")
 
+        countdown(60)
+
+    
+    
     except KeyboardInterrupt as e:
         print ('Stopping Threads')
 
